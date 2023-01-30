@@ -84,7 +84,7 @@ app.delete("/users/:id", (req, res) => {
     const collection = client.db("sport_project").collection("users");
     const result = await collection.deleteOne({ _id: id });
     if (!result.deletedCount) {
-      res.send({ error: "Not found" });
+      res.send({ error: "User not found" });
       return;
     }
     res.send({ id: id });
@@ -167,7 +167,7 @@ app.delete("/markers/:id", bodyParser.json(), (req, res) => {
       }
     );
     if (!result.modifiedCount) {
-      res.send({ error: "Not found" });
+      res.send({ error: "Marker not found" });
       return;
     }
     res.send({ id: id });
