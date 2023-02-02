@@ -49,48 +49,48 @@ app.get("/users", (req, res) => {
 
 
 // add new user
-app.post("/users", bodyParser.json(), (req, res) => {
-  const user = {
-    username: req.body.username,
-    password: req.body.password,
-    markers: req.body.markers,
-  };
+// app.post("/users", bodyParser.json(), (req, res) => {
+//   const user = {
+//     username: req.body.username,
+//     password: req.body.password,
+//     markers: req.body.markers,
+//   };
 
-  const client = getClient();
-  client.connect(async (err, client) => {
-    const collection = client.db("sport_project").collection("users");
+//   const client = getClient();
+//   client.connect(async (err, client) => {
+//     const collection = client.db("sport_project").collection("users");
 
-    const result = await collection.insertOne(user);
+//     const result = await collection.insertOne(user);
 
-    if (!result.insertedId) {
-      res.send({ error: "Insert failed" });
-      return;
-    }
-    res.send(user);
-    client.close();
-  });
-});
+//     if (!result.insertedId) {
+//       res.send({ error: "Insert failed" });
+//       return;
+//     }
+//     res.send(user);
+//     client.close();
+//   });
+// });
 
 
 // delete user
-app.delete("/users/:id", (req, res) => {
-  const id = getId(req.params.id);
-  if (!id) {
-    res.send({ error: "Invalid id" });
-    return;
-  }
-  const client = getClient();
-  client.connect(async (err) => {
-    const collection = client.db("sport_project").collection("users");
-    const result = await collection.deleteOne({ _id: id });
-    if (!result.deletedCount) {
-      res.send({ error: "User not found" });
-      return;
-    }
-    res.send({ id: id });
-    client.close();
-  });
-});
+// app.delete("/users/:id", (req, res) => {
+//   const id = getId(req.params.id);
+//   if (!id) {
+//     res.send({ error: "Invalid id" });
+//     return;
+//   }
+//   const client = getClient();
+//   client.connect(async (err) => {
+//     const collection = client.db("sport_project").collection("users");
+//     const result = await collection.deleteOne({ _id: id });
+//     if (!result.deletedCount) {
+//       res.send({ error: "User not found" });
+//       return;
+//     }
+//     res.send({ id: id });
+//     client.close();
+//   });
+// });
 
 
 //----------------------------------------------------------------------
@@ -114,7 +114,7 @@ app.get("/markers/:id", (req, res) => {
 
 
 // add new marker to user
-app.post("/markers/:id", bodyParser.json(), (req, res) => {
+app.post("/add-marker/:id", bodyParser.json(), (req, res) => {
   const newMarker = {
     lat: req.body.lat,
     lng: req.body.lng,
@@ -145,7 +145,7 @@ app.post("/markers/:id", bodyParser.json(), (req, res) => {
 
 
 // delete a marker from user
-app.delete("/markers/:id", bodyParser.json(), (req, res) => {
+app.delete("/delete-marker/:id", bodyParser.json(), (req, res) => {
   const marker = {
     lat: req.body.lat,
     lng: req.body.lng,
