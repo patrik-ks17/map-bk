@@ -6,13 +6,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 app.use(express.json());
 app.use(cors());
+require('dotenv').config();
 require("./userDetails");
 
-const JWT_SECRET =
-  "1234567890QWERTZUIOPŐÚÖÜÓŰÁÉLKJHGFDSAÍYXCVBNMíyxcvbnmasdfghjkléáűúőouzitrewqóüö<>#&@{}äđĐ[]íłŁ$ß¤×÷¨¸˝Í€Ä|?!+%/=()";
-
-const mongoUrl =
-  "mongodb+srv://patrik:nfoGU3FTAyZJtxjl@cluster0.dcwwdiy.mongodb.net/sport_project?retryWrites=true&w=majority";
+const JWT_SECRET = process.env.JWT_SECRET
+const mongoUrl = process.env.MONGO_URL
 
 mongoose.set("strictQuery", false);
 mongoose
