@@ -39,6 +39,7 @@ app.post("/register", async (req, res) => {
       username,
       email,
       password: encryptedPassword,
+      usertype: "user",
     });
     res.json({ status: "ok" });
   } catch (error) {
@@ -56,12 +57,16 @@ app.post("/login", async (req, res) => {
     return res.json({ error: "User not found" });
   }
   if (await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({ email: user.email }, JWT_SECRET,  {
+    const token = jwt.sign({ email: user.email }, JWT_SECRET, {
       expiresIn: "10h",
     });
+    const data = {
+      token: token,
+      usertype: user.usertype,
+    };
 
     if (res.status(201)) {
-      return res.json({ status: "ok", data: token });
+      return res.json({ status: "ok", data: data });
     } else {
       return res.json({ error: "error" });
     }
@@ -86,6 +91,9 @@ app.post("/add-marker", async (req, res) => {
         email: email,
         "markers.lat": {
           $in: [lat],
+        },
+        "markers.lng": {
+          $in: [lng],
         },
       },
       {
@@ -142,7 +150,6 @@ app.post("/delete-marker", async (req, res) => {
   }
 });
 
-
 //---------------------------------------------------------------
 //get user's data
 app.post("/get-userdata", async (req, res) => {
@@ -155,7 +162,7 @@ app.post("/get-userdata", async (req, res) => {
       return res;
     });
     if (user == "token expired") {
-      return res.json({ status: "error", data: "token expired"})
+      return res.json({ status: "error", data: "token expired" });
     }
     const useremail = user.email;
     User.findOne({ email: useremail })
@@ -181,7 +188,7 @@ app.post("/get-alldata", async (req, res) => {
       return res;
     });
     if (user == "token expired") {
-      return res.json({ status: "error", data: "token expired"})
+      return res.json({ status: "error", data: "token expired" });
     }
     if (!user) {
       res.json({ status: "error", error: "Invalid User" });

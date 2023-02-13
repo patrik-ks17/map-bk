@@ -23,6 +23,7 @@ const UserDetailsSchema = new mongoose.Schema({
 	username:String,
 	email:{type:String, unique:true},
 	password:String,
+	usertype:String,
 	markers: [{type: Object, ref: "UserMarkers"}]
 }, {
 	collection: "UserInfo",
