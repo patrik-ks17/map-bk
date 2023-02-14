@@ -20,9 +20,9 @@ const UserMarkerSchema = new mongoose.Schema({
 });
 
 const UserDetailsSchema = new mongoose.Schema({
-	username:String,
-	email:{type:String, unique:true},
-	password:String,
+	username:{type:String, required:true},
+	email:{type:String, unique:true, required:true},
+	password:{type:String, required:true},
 	usertype:String,
 	markers: [{type: Object, ref: "UserMarkers"}]
 }, {
